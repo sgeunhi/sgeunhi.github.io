@@ -79,6 +79,13 @@ jobs:
           valueFile: "_config.yml"
           propertyPath: "giscus.repo"
           value: ${{ github.repository }}
+      - name: Install ImageMagick 🖼️
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          # jekyll-imagemagick calls `convert`; ImageMagick 7 may only ship `magick`
+          command -v convert || sudo ln -s "$(command -v magick)" /usr/local/bin/convert
+          convert -version
       - name: Install and Build 🔧
         run: |
           pip3 install --upgrade jupyter
